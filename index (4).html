@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8"> <!-- Sayt tili o‘zbekcha uchun UTF-8 kodlash -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobil qurilmalarda mos ko‘rinish -->
+    <title>Interaktiv Matematika Mashqlari</title> <!-- Brauzer oynasida chiqadigan nom -->
+
+    <style>
+        /* --- Umumiy dizayn --- */
+        body {
+            font-family: Arial, sans-serif; /* O‘qishga qulay shrift */
+            background: linear-gradient(to right, #74ebd5, #acb6e5); /* Chiroyli fon gradienti */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Markazga joylash */
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* --- Sayt sarlavhasi --- */
+        h1 {
+            color: #333;
+            background: white;
+            padding: 10px 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        /* --- Mashq oynasi --- */
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            text-align: center;
+            width: 300px;
+        }
+
+        /* --- Savol matni --- */
+        #question {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* --- Javob maydoni --- */
+        input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #74ebd5;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* --- Tugmalar --- */
+        button {
+            background: #74ebd5;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Hover effekti (sichqoncha olib borilganda) */
+        button:hover {
+            background: #56cfe1;
+        }
+
+        /* --- Natija matni --- */
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sayt sarlavhasi -->
+    <h1>🧮 Interaktiv Matematika</h1>
+
+    <!-- Mashq joyi -->
+    <div class="container">
+        <p id="question">Savol bu yerda chiqadi</p> <!-- Savol ko‘rsatiladigan joy -->
+        <input type="number" id="answer" placeholder="Javobni kiriting"> <!-- Foydalanuvchi javob kiritadi -->
+        <br>
+        <button onclick="checkAnswer()">✅ Tekshirish</button> <!-- Javobni tekshiruvchi tugma -->
+        <button onclick="newQuestion()">➡️ Keyingi savol</button> <!-- Yangi savol chiqaruvchi tugma -->
+        <p id="result"></p> <!-- Natija chiqadigan joy -->
+    </div>
+
+    <script>
+        // --- O'zgaruvchilarni e'lon qilish ---
+        let correctAnswer; // To‘g‘ri javob shu o‘zgaruvchida saqlanadi
+
+        // --- Tasodifiy savol yaratish funksiyasi ---
+        function newQuestion() {
+            let a = Math.floor(Math.random() * 10) + 1; // 1–10 oralig‘ida tasodifiy son
+            let b = Math.floor(Math.random() * 10) + 1;
+            let operations = ['+', '-', '×', '÷']; // 4 xil amal
+            let op = operations[Math.floor(Math.random() * operations.length)]; // Tasodifiy amal tanlanadi
+
+            // Amalga qarab to‘g‘ri javobni hisoblash
+            if (op === '+') correctAnswer = a + b;
+            else if (op === '-') correctAnswer = a - b;
+            else if (op === '×') correctAnswer = a * b;
+            else if (op === '÷') {
+                // Bo‘lishda butun natija chiqishi uchun maxsus holat
+                correctAnswer = a;
+                a = a * b;
+            }
+
+            // Savolni ekranda ko‘rsatish
+            document.getElementById("question").textContent = `${a} ${op} ${b} = ?`;
+            document.getElementById("result").textContent = "";
+            document.getElementById("answer").value = "";
+        }
+
+        // --- Javobni tekshirish funksiyasi ---
+        function checkAnswer() {
+            let userAnswer = Number(document.getElementById("answer").value); // Foydalanuvchi javobi olinadi
+            let resultText = document.getElementById("result");
+
+            // Agar javob to‘g‘ri bo‘lsa
+            if (userAnswer === correctAnswer) {
+                resultText.textContent = "✅ To‘g‘ri javob!";
+                resultText.style.color = "green";
+            } else {
+                resultText.textContent = `❌ Noto‘g‘ri! To‘g‘ri javob: ${correctAnswer}`;
+                resultText.style.color = "red";
+            }
+        }
+
+        // Dastlabki savolni avtomatik chiqarish
+        newQuestion();
+    </script>
+
+</body>
+</html>
