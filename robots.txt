@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jamayure421-rgb.github.io/Interaktiv-matematika/sitemap.xml
